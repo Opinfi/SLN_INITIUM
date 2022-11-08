@@ -27,11 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{C696
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{C7BD30E0-F00D-4446-B7AE-ED7EAA567B06}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postman", "Postman", "{CAB5DC08-A6CC-447B-A5F5-9E4DB506C93B}"
-	ProjectSection(SolutionItems) = preProject
-		..\Api Initium.postman_collection.json = ..\Api Initium.postman_collection.json
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
