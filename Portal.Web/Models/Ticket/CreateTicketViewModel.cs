@@ -2,10 +2,6 @@
 {
     public class CreateTicketViewModel
     {
-        public CreateTicketViewModel()
-        {
-            
-        }
         public string? Nombre { get; set; }
         //[("Id")]
         public string? Identificacion { get; set; }

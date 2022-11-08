@@ -16,7 +16,7 @@ namespace Services.Interops
             _apiClient = new RestClient(baseURL);
         }
 
-        public async Task<List<CreateTickets>> GetCreateTicket()
+        public async Task<CreateTickets> GetCreateTicket()
         {
             var request = new RestRequest("Registrar",Method.Get);
      
@@ -27,17 +27,17 @@ namespace Services.Interops
                 responseContent = response.Content;
                 if (response.IsSuccessful)
                 {
-                    return JsonSerializer.Deserialize<List<CreateTickets>>(responseContent);
+                    return JsonSerializer.Deserialize<CreateTickets>(responseContent);
                 }
-                return new List<CreateTickets>();
+                return new CreateTickets();
             }
             catch (JsonParsingException e)
             {
-                return new List<CreateTickets>();
+                return new CreateTickets();
             }
             catch (Exception e)
             {
-                return new List<CreateTickets>();
+                return new CreateTickets();
             }
         }
     }

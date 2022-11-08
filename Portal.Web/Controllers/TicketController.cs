@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Portal.Web.Managers;
 
 namespace Portal.Web.Controllers
 {
     public class TicketController : Controller
     {
+        private  TicketManager _ticketManager=> new();
         // GET: TicketController
         public ActionResult Index()
         {
@@ -14,14 +16,15 @@ namespace Portal.Web.Controllers
         // GET: TicketController/Details/5
         public ActionResult Details(int id)
         {
+            
             return View();
         }
 
         // GET: TicketController/Create
         public ActionResult Create()
         {
-
-            return View();
+            var view = _ticketManager.SincronizandoDatosTickets();
+            return View(view);
         }
 
         // POST: TicketController/Create
@@ -31,7 +34,8 @@ namespace Portal.Web.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
