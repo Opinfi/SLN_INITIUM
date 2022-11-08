@@ -1,0 +1,46 @@
+﻿@model Portal.Web.Models.Ticket.CreateTicketViewModel
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<div class="row">
+    @Html.AntiForgeryToken()
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Identificacion" class="control-label"></label>
+                <input asp-for="Identificacion" class="form-control" />
+                <span asp-validation-for="Identificacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cola" class="control-label"></label>
+                <input asp-for="Cola" class="form-control" />
+                <span asp-validation-for="Cola" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cola2" class="control-label"></label>
+                <input asp-for="Cola2" class="form-control" />
+                <span asp-validation-for="Cola2" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
