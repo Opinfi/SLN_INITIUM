@@ -25,5 +25,6 @@ namespace Portal.Web.Managers
             }       
             return view;
         }
+
     }
 }

@@ -1,7 +1,8 @@
-﻿using RestSharp;
-using RestSharp.Serializers.Utf8Json;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using Services.Interops.Request;
 using Utf8Json;
+using JsonSerializer = Utf8Json.JsonSerializer;
 
 namespace Services.Interops
 {
@@ -18,7 +19,7 @@ namespace Services.Interops
 
         public async Task<CreateTickets> GetCreateTicket()
         {
-            var request = new RestRequest("Registrar",Method.Get);
+            var request = new RestRequest("Tickets/Registrar",Method.Get);
      
             string responseContent = null;
             try
@@ -38,6 +39,33 @@ namespace Services.Interops
             catch (Exception e)
             {
                 return new CreateTickets();
+            }
+        }
+        public async Task<string> CreateTicket(CreateTickets createTickets)
+        {
+            var request = new RestRequest("Tickets", Method.Post);
+            request.AddHeader("Content-Type", "application/json; charset=utf8");
+ 
+            var re = JsonConvert.SerializeObject(createTickets);
+    
+            request.AddParameter("application/json", re, ParameterType.RequestBody);
+            try
+            {
+                var r = await _apiClient.ExecuteAsync(request, Method.Post);
+                var responseContent = r.Content;
+                if (!r.IsSuccessful)
+                {
+                   return null; 
+                }
+                return responseContent;
+            }
+            catch (JsonParsingException e)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }
