@@ -34,7 +34,8 @@ namespace Application.Features.TicketFeatures.Queries
                     command.Cola = $"{codigoCola1}-0000001";
                     command.Cola2 = $"{codigoCola2}-0000001";
                 }
-                var listaTickets = await _ticketRepository.FindAsync(x => x.Estado);
+                var fechaTicket = DateTime.Now;
+                var listaTickets = await _ticketRepository.FindAsync(x => x.Estado && x.FechaTicket.Date==fechaTicket.Date  );
                 if (listaTickets.Count() == 0)
                 {
                     command.Cola = $"{codigoCola1}-0000001";
@@ -44,17 +45,27 @@ namespace Application.Features.TicketFeatures.Queries
                 {
                     foreach (var item in colas)
                     {
+                        long codigoT = 0;
                         if (item.Codigo == codigoCola1)
                         {
-                            var codigoT = listaTickets.Where(x => x.ColaId == item.IdCola)
-                                           .OrderByDescending(x => x.FechaTicket).FirstOrDefault()?.Codigo;
-                            command.Cola = $"{codigoCola1}-{codigoT}";
+                            
+                            if (listaTickets.Any(x => x.ColaId == item.IdCola))
+                            {
+                                codigoT = listaTickets.Where(x => x.ColaId == item.IdCola).Select(x => x.Serie).Max() + 1;
+                            }
+                            else
+                                codigoT = 1;
+                            command.Cola = $"{codigoCola1}-{codigoT.ToString().PadLeft(7, '0')}";
                         }
                         if (item.Codigo == codigoCola2)
                         {
-                            var codigoT = listaTickets.Where(x => x.ColaId == item.IdCola)
-                                           .OrderByDescending(x => x.FechaTicket).FirstOrDefault()?.Codigo;
-                            command.Cola2 = $"{codigoCola2}-{codigoT}";
+                            if (listaTickets.Any(x => x.ColaId == item.IdCola))
+                            {
+                                codigoT = listaTickets.Where(x => x.ColaId == item.IdCola).Select(x => x.Serie).Max() + 1;
+                            }
+                            else
+                                codigoT = 1;
+                            command.Cola2 = $"{codigoCola2}-{codigoT.ToString().PadLeft(7, '0')}";
                         }
                     }
                 }

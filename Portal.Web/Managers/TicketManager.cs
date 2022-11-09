@@ -1,5 +1,6 @@
 ﻿using Portal.Web.Models.Ticket;
 using Services.Interops;
+using Services.Interops.Request;
 
 namespace Portal.Web.Managers
 {
@@ -14,8 +15,8 @@ namespace Portal.Web.Managers
 
         public async Task<CreateTicketViewModel> SincronizandoDatosTickets()
         {
-            var view = new CreateTicketViewModel();
             var peticion = await _ticketsServices.GetCreateTicket();
+            var view = new CreateTicketViewModel();          
             if (peticion != null && peticion?.Cola != null)
             {
                 view.Cola = peticion?.Cola;
@@ -24,6 +25,23 @@ namespace Portal.Web.Managers
                 view.Nombre = peticion?.Nombre;
             }       
             return view;
+        }
+
+        public async Task<string> CreateTicket(CreateTicketViewModel model)
+        {
+            if (model != null)
+            {
+                var datos = new CreateTickets()
+                {
+                    Cola = model?.Cola,
+                    Cola2 = model?.Cola2,
+                    Identificacion = model?.Identificacion,
+                    Nombre = model?.Nombre,
+                };
+                var peticion = await _ticketsServices.CreateTicket(datos);
+                return peticion;
+            }
+            return "Error al grabar tickets";
         }
 
     }

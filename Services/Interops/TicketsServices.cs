@@ -44,11 +44,12 @@ namespace Services.Interops
         public async Task<string> CreateTicket(CreateTickets createTickets)
         {
             var request = new RestRequest("Tickets", Method.Post);
-            request.AddHeader("Content-Type", "application/json; charset=utf8");
- 
+            request.AddHeader("Content-Type", "application/json")
+                   .AddHeader("Accept", "*/*");
+        
             var re = JsonConvert.SerializeObject(createTickets);
-    
-            request.AddParameter("application/json", re, ParameterType.RequestBody);
+            request.AddJsonBody(re);
+ 
             try
             {
                 var r = await _apiClient.ExecuteAsync(request, Method.Post);

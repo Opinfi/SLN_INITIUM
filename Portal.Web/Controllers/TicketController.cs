@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Portal.Web.Managers;
+using Portal.Web.Models.Ticket;
 
 namespace Portal.Web.Controllers
 {
@@ -21,22 +22,30 @@ namespace Portal.Web.Controllers
         }
 
         // GET: TicketController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            var view = _ticketManager.SincronizandoDatosTickets();
+            var view = await _ticketManager.SincronizandoDatosTickets();
+            
             return View(view);
         }
 
         // POST: TicketController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(IFormCollection collection)
         {
             try
             {
+                var view = new CreateTicketViewModel() { 
+                  Identificacion = collection["Identificacion"],
+                  Nombre = collection["Nombre"]
+                };
 
-
-                return RedirectToAction(nameof(Create));
+                var mensaje = await _ticketManager.CreateTicket(view);
+                if (mensaje == "Ok")
+                    return RedirectToAction(nameof(Create));
+                else
+                    return View();
             }
             catch
             {
